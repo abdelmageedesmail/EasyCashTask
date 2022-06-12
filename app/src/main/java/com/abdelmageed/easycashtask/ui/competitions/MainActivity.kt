@@ -16,9 +16,12 @@ import com.abdelmageed.easycashtask.data.remote.responses.competitions.Competion
 import com.abdelmageed.easycashtask.data.remote.responses.competitions.Competition
 import com.abdelmageed.easycashtask.databinding.ActivityMainBinding
 import com.abdelmageed.easycashtask.ui.details.CompetitionsDetails
+import com.abdelmageed.easycashtask.uitls.Utils
 import com.abdelmageed.easycashtask.uitls.ViewClick
 import com.abdelmageed.easycashtask.viewModels.competition.CompetitionStateFlow
 import com.abdelmageed.easycashtask.viewModels.competition.CompetitionViewModel
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
@@ -42,6 +45,13 @@ class MainActivity : AppCompatActivity(), ViewClick {
     }
 
     private fun setUpViewModel() {
+        if (Utils.checkIsEmulator()) {
+            Toast.makeText(this, "Dangerous !! it is emulator", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "No Its safe", Toast.LENGTH_SHORT).show()
+        }
+
+        Utils.getSafetyNet(this)
         lifecycleScope.launchWhenCreated {
             viewModel.getCompetitions()
             viewModel.mutableStateFlow.collect {
@@ -71,6 +81,8 @@ class MainActivity : AppCompatActivity(), ViewClick {
             }
         }
     }
+
+
 
     private fun showCompetions(competitionResponse: CompetionsResponse) {
         binding.loadingView.visibility = View.GONE
