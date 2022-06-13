@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -21,6 +22,7 @@ import com.abdelmageed.easycashtask.databinding.ActivityCompetitionsDetailsBindi
 import com.abdelmageed.easycashtask.viewModels.competitionDetails.CompetitionDetailsStateFlow
 import com.abdelmageed.easycashtask.viewModels.competitionDetails.CompetitionsDetailsViewModel
 import com.squareup.picasso.Picasso
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_competitions_details.*
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
@@ -36,12 +38,12 @@ import javax.inject.Inject
  * from table class that called CompetitionsDetailsDatabase.class
  */
 
+@AndroidEntryPoint
 class CompetitionsDetails : AppCompatActivity() {
 
     lateinit var binding: ActivityCompetitionsDetailsBinding
 
-    @Inject
-    lateinit var viewModel: CompetitionsDetailsViewModel
+    val viewModel: CompetitionsDetailsViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -135,7 +137,6 @@ class CompetitionsDetails : AppCompatActivity() {
 
 
     private fun setUpBinding() {
-        ((application as MyApplication).appComponent.inject(this))
         binding =
             DataBindingUtil.setContentView(this, R.layout.activity_competitions_details)
 

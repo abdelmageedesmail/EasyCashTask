@@ -22,6 +22,7 @@ import com.abdelmageed.easycashtask.viewModels.competition.CompetitionStateFlow
 import com.abdelmageed.easycashtask.viewModels.competition.CompetitionViewModel
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
@@ -29,12 +30,12 @@ import javax.inject.Inject
  * This class show list of competitions
  */
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(), ViewClick {
 
     lateinit var binding: ActivityMainBinding
 
-    @Inject
-    lateinit var viewModel: CompetitionViewModel
+     val viewModel: CompetitionViewModel by viewModels()
 
     var competitions: MutableList<Competition> = mutableListOf()
 
@@ -83,7 +84,6 @@ class MainActivity : AppCompatActivity(), ViewClick {
     }
 
 
-
     private fun showCompetions(competitionResponse: CompetionsResponse) {
         binding.loadingView.visibility = View.GONE
         competitions = competitionResponse.competitions
@@ -115,7 +115,6 @@ class MainActivity : AppCompatActivity(), ViewClick {
     }
 
     private fun setUpBinding() {
-        ((application as MyApplication).appComponent.inject(this))
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
     }
 

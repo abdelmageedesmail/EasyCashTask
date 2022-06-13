@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,6 +23,7 @@ import com.abdelmageed.easycashtask.ui.competitions.MainActivity
 import com.abdelmageed.easycashtask.uitls.ViewClick
 import com.abdelmageed.easycashtask.viewModels.competitionDetails.CompetitionDetailsStateFlow
 import com.abdelmageed.easycashtask.viewModels.competitionDetails.CompetitionsDetailsViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
@@ -28,10 +31,10 @@ import javax.inject.Inject
  * This class show current competition's team
  * Data show according to cashed data of api that return teams
  */
+@AndroidEntryPoint
 class TeamFragment : Fragment(), ViewClick {
 
-    @Inject
-    lateinit var viewModel: CompetitionsDetailsViewModel
+    val viewModel: CompetitionsDetailsViewModel by viewModels()
 
     lateinit var binding: FragmentCompetitionBinding
     var teams: MutableList<Team> = mutableListOf()
@@ -53,7 +56,6 @@ class TeamFragment : Fragment(), ViewClick {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_competition, container, false)
-        ((requireActivity().application as MyApplication).appComponent).inject(this)
 
         arguments?.let {
             if (it.getSerializable("id") != null) {

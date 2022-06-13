@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -18,6 +19,7 @@ import com.abdelmageed.easycashtask.viewModels.teamDetails.TeamDetailsStateFlow
 import com.abdelmageed.easycashtask.viewModels.teamDetails.TeamDetailsViewModel
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 import com.squareup.picasso.Picasso
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
@@ -29,12 +31,12 @@ import javax.inject.Inject
  * method that is called loadCashedData() -> return cashed data from Room Database from TeamDetailsDatabase Table class
  */
 
+@AndroidEntryPoint
 class TeamDetailsActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityTeamDetailsBinding
 
-    @Inject
-    lateinit var viewModel: TeamDetailsViewModel
+    val viewModel: TeamDetailsViewModel by viewModels()
     var url = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -118,7 +120,6 @@ class TeamDetailsActivity : AppCompatActivity() {
 
     private fun setUpBinding() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_team_details)
-        (application as MyApplication).appComponent.inject(this)
         binding.tvWebsite.setPaintFlags(binding.tvWebsite.getPaintFlags() or Paint.UNDERLINE_TEXT_FLAG)
     }
 

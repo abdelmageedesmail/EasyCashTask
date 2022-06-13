@@ -13,6 +13,7 @@ import com.abdelmageed.easycashtask.data.remote.responses.competitions.Competion
 import com.abdelmageed.easycashtask.data.remote.responses.competitionsDetails.CompetitionsDetailsResponse
 import com.abdelmageed.easycashtask.data.remote.responses.teams.TeamsCompetitionsResponse
 import com.abdelmageed.easycashtask.viewModels.competition.CompetitionStateFlow
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,6 +23,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+@HiltViewModel
 class CompetitionsDetailsViewModel @Inject constructor(
     val repositery: CompetitionDetailsRepositery,
     val localeCompetitionsDetailsStore: LocaleCompetitionsDetailsStore

@@ -10,6 +10,7 @@ import com.abdelmageed.easycashtask.data.locale.localeRepositries.LocaleTeamDeta
 import com.abdelmageed.easycashtask.data.remote.repositries.TeamDetailsRepositry
 import com.abdelmageed.easycashtask.data.remote.responses.TeamDetailsResponse
 import com.abdelmageed.easycashtask.data.remote.responses.competitionsDetails.CompetitionsDetailsResponse
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
@@ -17,6 +18,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class TeamDetailsViewModel @Inject constructor(
     val teamDetailsRepositry: TeamDetailsRepositry,
     val localeTeamDetailsRepo: LocaleTeamDetailsRepo

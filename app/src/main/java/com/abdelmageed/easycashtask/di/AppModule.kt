@@ -10,7 +10,11 @@ import com.abdelmageed.easycashtask.data.locale.db.RoomDataBase
 import com.abdelmageed.easycashtask.data.remote.ApiInterface
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -19,12 +23,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-class AppModule(private val application: Application) {
+@InstallIn(SingletonComponent::class)
+class AppModule {
+
 
     val httpClient: OkHttpClient.Builder = OkHttpClient.Builder()
 
     @Provides
-    @Singleton
     fun addHttpClient(): OkHttpClient.Builder {
         val addInterceptor = httpClient.addInterceptor(object : Interceptor {
             override fun intercept(chain: Interceptor.Chain): Response {
@@ -41,7 +46,6 @@ class AppModule(private val application: Application) {
     }
 
     @Provides
-    @Singleton
     fun initApiService(): ApiInterface {
         val client = addHttpClient().build()
 
@@ -54,24 +58,15 @@ class AppModule(private val application: Application) {
     }
 
 
-    @Singleton
     @Provides
-    fun initCatRoomDataBase(): RoomDataBase {
+    fun initCatRoomDataBase(@ApplicationContext application: Context): RoomDataBase {
         return RoomDataBase.getDatabase(application)
     }
 
     @Provides
-    @Singleton
-    fun initDao(): CompetitionsDao {
-        return initCatRoomDataBase().competitionsDao()
+    fun initDao(@ApplicationContext application: Context): CompetitionsDao {
+        return initCatRoomDataBase(application).competitionsDao()
+
     }
-
-    @Provides
-    @Singleton
-    fun providesApplication(): Application = application
-
-    @Provides
-    @Singleton
-    fun providesApplicationContext(): Context = application
 
 }
